@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.scm.entity.User;
 
 import com.scm.forms.UserForm;
+import com.scm.helper.Message;
+import com.scm.helper.MessageType;
 import com.scm.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PageController {
@@ -58,25 +62,40 @@ public class PageController {
     //processing register
 
     @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister(@ModelAttribute UserForm userForm){
+    public String processRegister(@ModelAttribute UserForm userForm,HttpSession session){
         System.out.println("Processing register");
         //fetch form data
         //userFormData
         //validate form data
         //save data to database
         //UserForm->User
-        User user = User.builder()
-        .name(userForm.getName())
-        .email(userForm.getEmail())
-        .password(userForm.getPassword())
-        .about(userForm.getAbout())
-        .phoneNumber(userForm.getPhoneNumber())
-        .profilePic("https://www.istockphoto.com/search/2/image-film?phrase=default+profile+image")
-        .build();
+        // User user = User.builder()
+        // .name(userForm.getName())
+        // .email(userForm.getEmail())
+        // .password(userForm.getPassword())
+        // .about(userForm.getAbout())
+        // .phoneNumber(userForm.getPhoneNumber())
+        // .profilePic("https://www.istockphoto.com/search/2/image-film?phrase=default+profile+image")
+        // .build();
+
+        User user = new User();
+        user.setName(userForm.getName());
+        user.setEmail(userForm.getEmail());
+        user.setPassword(userForm.getPassword());
+        user.setAbout(userForm.getAbout());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setProfilePic("https://www.istockphoto.com/search/2/image-film?phrase=default+profile+image");
 
         User saveUser = userService.saveUser(user);
 
         //message ="register successfully"
+        //add the message
+        Message message = Message.builder().content("Registration successful").type(MessageType.green).build();
+        session.setAttribute("message", message);
+
+        //redirect to login page
+        
+
         //redirect to login page
         
         return "redirect:/register";
