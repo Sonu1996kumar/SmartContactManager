@@ -12,7 +12,7 @@
 </head>
 <body class="dark:bg-gray-900 bg-gray-100 dark:text-white">
     <!--Common Header -->
-    <div th:replace="navbar::navbar"></div>
+    <div th:replace="~{navbar::navbar}"></div>
     <!--main content-->
     <div class="p-4">
         <section th:replace="${content}"></section>

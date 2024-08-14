@@ -1,5 +1,7 @@
 package com.scm.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,9 @@ public class PageController {
  
     @Autowired
     private UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(PageController.class);
+
     @RequestMapping("/home")
     public String home(Model model) {
         model.addAttribute("name","Sonu Kumar Singh");
@@ -49,8 +54,9 @@ public class PageController {
     }
 
     @GetMapping("/login")
-    public String login(){
-        return "login";
+    public String login() {
+       logger.info("Login ho rha hao");
+        return "login";  
     }
 
     @GetMapping("/register")
